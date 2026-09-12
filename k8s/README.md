@@ -147,15 +147,16 @@ curl -X DELETE http://task-manager.local/tasks/<id>
 <img width="698" height="221" alt="image" src="https://github.com/user-attachments/assets/969c4c4f-dca0-4f1a-aca9-cc599f5a2772" />
 
 目录结构：
-
+```bash
 k8s/
-├── configmap.yaml
-├── deployment.yaml
-├── ingress.yaml
-├── namespace.yaml
-├── nginx-ingress-deploy.yaml
-├── README.md
-└── service.yaml
+├── configmap.yaml    
+├── deployment.yaml    
+├── ingress.yaml    
+├── namespace.yaml    
+├── nginx-ingress-deploy.yaml    
+├── README.md    
+└── service.yaml    
+```
 
 ## 六、清理资源
 
