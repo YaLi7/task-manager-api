@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, status
-from typing import List
 from datetime import datetime
+from typing import List
 
-from src.models.task import Task, TaskCreate, TaskUpdate
+from fastapi import APIRouter, HTTPException, status
+
 from src import storage
+from src.models.task import Task, TaskCreate, TaskUpdate
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
@@ -47,4 +48,3 @@ def delete_task(task_id: str):
     """删除任务"""
     if not storage.delete_task(task_id):
         raise HTTPException(status_code=404, detail="任务不存在")
-    return None

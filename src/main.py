@@ -24,15 +24,15 @@ app.include_router(tasks.router)
 # 全局请求日志中间件
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    logger.info(f"请求: {request.method} {request.url.path}")
+    logger.info("请求: %s %s", request.method, request.url.path)
     response = await call_next(request)
-    logger.info(f"响应: {response.status_code}")
+    logger.info("响应: %s", response.status_code)
     return response
 
 # 全局异常处理
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    logger.error(f"服务器错误: {exc}")
+    logger.error("服务器错误: %s", exc)
     return JSONResponse(
         status_code=500,
         content={"detail": "服务器内部错误"}
