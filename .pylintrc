@@ -4,11 +4,13 @@ jobs=1
 
 [MESSAGES CONTROL]
 disable=
-    C0114,  # missing-module-docstring
-    C0115,  # missing-class-docstring
-    C0116,  # missing-function-docstring
-    R0903,  # too-few-public-methods
-    W0613,  # unused-argument
+    C0114,
+    C0115,
+    C0116,
+    R0903,
+    W0613,
+    W0621,
+    W0212
 
 [FORMAT]
 max-line-length=120

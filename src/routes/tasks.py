@@ -33,12 +33,12 @@ def update_task(task_id: str, task_data: TaskUpdate):
     existing_task = storage.get_task(task_id)
     if not existing_task:
         raise HTTPException(status_code=404, detail="任务不存在")
-    
+
     # 只更新传了的字段
     update_data = task_data.model_dump(exclude_unset=True)
     for key, value in update_data.items():
         setattr(existing_task, key, value)
-    
+
     # 更新时间戳
     existing_task.updated_at = datetime.utcnow()
     return storage.update_task(task_id, existing_task)
