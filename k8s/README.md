@@ -144,12 +144,18 @@ curl -X DELETE http://task-manager.local/tasks/<id>
 
 ## 五、资源清单说明
 
-资源类型	文件名	说明
-Namespace	namespace.yaml	创建独立命名空间 task-manager
-ConfigMap	configmap.yaml	存储非敏感配置（日志级别、端口）
-Deployment	deployment.yaml	2 副本，资源限制（CPU: 100m-200m, Memory: 128Mi-256Mi），健康探针（Liveness + Readiness）
-Service	service.yaml	ClusterIP 类型，暴露 8080 端口
-Ingress	ingress.yaml	配置入口规则，域名 task-manager.local
+<img width="698" height="221" alt="image" src="https://github.com/user-attachments/assets/969c4c4f-dca0-4f1a-aca9-cc599f5a2772" />
+
+目录结构：
+
+k8s/
+├── configmap.yaml
+├── deployment.yaml
+├── ingress.yaml
+├── namespace.yaml
+├── nginx-ingress-deploy.yaml
+├── README.md
+└── service.yaml
 
 ## 六、清理资源
 
@@ -178,10 +184,14 @@ minikube delete
 minikube image load task-manager-api:v1
 ```
 
+***
+
 #### 问题 2：Ingress Controller 镜像拉取失败
 > 原因：国内网络访问 registry.k8s.io 超时，且官方 manifest 中的镜像地址带有 SHA256 哈希。
 
 **解决方案**：见本文档「三、部署 Ingress Controller」章节。
+
+***
 
 #### 问题 3：curl http://task-manager.local/health 连接被拒绝
 > 原因：
@@ -193,3 +203,4 @@ minikube image load task-manager-api:v1
 添加 hosts 为 127.0.0.1 task-manager.local
 使用 kubectl port-forward ... 80:80 建立隧道
 
+***
