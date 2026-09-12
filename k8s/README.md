@@ -171,26 +171,25 @@ minikube delete
 ```
 ## 七、常见问题与解决方案
 #### 问题 1：Pod 卡在 ImagePullBackOff
-原因：Minikube 内部找不到镜像。
+> 原因：Minikube 内部找不到镜像。
 
-解决方案：
+**解决方案**：
 ```bash
 minikube image load task-manager-api:v1
 ```
 
 #### 问题 2：Ingress Controller 镜像拉取失败
-原因：国内网络访问 registry.k8s.io 超时，且官方 manifest 中的镜像地址带有 SHA256 哈希。
+> 原因：国内网络访问 registry.k8s.io 超时，且官方 manifest 中的镜像地址带有 SHA256 哈希。
 
-解决方案：见本文档「三、部署 Ingress Controller」章节。
+**解决方案**：见本文档「三、部署 Ingress Controller」章节。
 
 #### 问题 3：curl http://task-manager.local/health 连接被拒绝
-原因：/etc/hosts 中配的 IP 是 Minikube 容器内部 IP，从宿主机不可达。
+> 原因：
+> 在 docker 驱动的 Minikube 环境中，Ingress Controller 的 LoadBalancer 类型 Service
+> 只会将端口（NodePort）绑定在 Minikube 容器内部的 IP上，
+> 不会映射到宿主机的任何端口**。因此从宿主机无法直接访问 
 
-解决方案：
-添加 hosts 改为 127.0.0.1 task-manager.local
-使用 sudo kubectl port-forward ... 80:80 建立隧道
+**解决方案**：
+添加 hosts 为 127.0.0.1 task-manager.local
+使用 kubectl port-forward ... 80:80 建立隧道
 
-#### 问题 5：namespaces "task-manager" not found
-原因：K8s 创建 namespace 是异步的，资源创建有延迟。
-
-解决方案：等待几秒后再次执行 kubectl apply -f k8s/。
