@@ -92,7 +92,8 @@ jobs:
       - name: 生成镜像标签
         id: meta
         run: |
-          IMAGE_TAG="ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_TAG="ghcr.io/${OWNER}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
           echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
           echo "镜像标签：${IMAGE_TAG}"
 
