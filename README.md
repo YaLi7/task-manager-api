@@ -89,7 +89,7 @@ task-manager-api/
   "created_at": "2026-01-01T00:00:00Z",
   "updated_at": "2026-01-01T00:00:00Z"
 }
-
+```
 
 *** 
 
@@ -264,6 +264,9 @@ curl -X DELETE http://task-manager.local/tasks/<id>
 K8s 相关问题，详见 [k8s/README.md](k8s/README.md)。
 
 
+*** 
+
+
 ### 问题1: CI 中 pylint 退出码非 0 导致流水线失败
 > 现象：GitHub Actions 的 Lint 阶段报 Process completed with exit code 20。
 > 原因：pylint 默认评分不到 10 就返回非 0 退出码，而代码中有一些可接受的警告（如 pytest fixture 的变量名重复）。
@@ -283,6 +286,10 @@ disable=
 ```bash
 python -m pylint src/ --rcfile=.pylintrc --fail-under=8
 ```
+
+*** 
+
+
 ### 问题2: Docker 镜像标签包含大写字母导致推送失败
 > 现象：Build 阶段报错 invalid tag "ghcr.io/YaLi7/task-manager-api:...": repository name must be lowercase。
 > 原因：Docker 镜像仓库名要求全部小写，而 GitHub 用户名 YaLi7 包含大写字母。
@@ -298,6 +305,9 @@ python -m pylint src/ --rcfile=.pylintrc --fail-under=8
     echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
 ```
 
+*** 
+
+
 ### 问题3: Trivy 扫描发现系统级 CRITICAL 漏洞
 > 现象：Security Scan 阶段报 Process completed with exit code 1，Trivy 报告 3 个 CRITICAL 漏洞（perl-base、perl-archive-tar、perl）。
 > 原因：python:3.11-slim 基础镜像基于 Debian，自带的 Perl 系统包存在已知漏洞。
@@ -312,6 +322,9 @@ FROM python:3.11-slim AS runtime
 # 升级系统包，修复已知漏洞
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 ```
+
+*** 
+
 
 ### 问题4:Trivy Action 版本号不存在
 > 现象：Trivy 扫描后报 Total: 5 (HIGH: 5, CRITICAL: 0)，流水线失败。
@@ -330,6 +343,9 @@ RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
     severity: 'CRITICAL'
 ```
 **说明**：这是安全性和开发效率之间的平衡。CRITICAL 必须立刻修复，HIGH 级别可以通过定期扫描、依赖更新来处理，不应阻断每次提交。
+
+*** 
+
 
 ## ⚠️ 已知限制
 本项目使用内存存储，且 Deployment 配置了 2 个副本。由于每个 Pod 的内存互相独立，Service 轮询分发请求时，不同请求可能落到不同 Pod，导致返回的列表数据不一致。
